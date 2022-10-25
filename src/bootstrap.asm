@@ -3,3 +3,10 @@
 
 %include "math/_entry.asm"
 %include "bios/_entry.asm"
+%include "draw/_entry.asm"
+
+CALL draw_2d__pixel
+
+JMP loop
+loop:
+	JMP loop

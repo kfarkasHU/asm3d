@@ -1,1 +1,1 @@
-%include "video_mode.adm"
+%include "bios/video_mode.asm"

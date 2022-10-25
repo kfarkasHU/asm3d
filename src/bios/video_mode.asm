@@ -8,15 +8,13 @@
 ;  CALL bios__set_video_mode
 ;
 bios__set_video_mode:
-	PUSH ah
-	PUSH al
+	PUSH ax
 
 	MOV ah, 00h
 	MOV al, 13h
 
 	INT 10h
 
-	POP al
-	POP ah
+	POP ax
 
 	RET
