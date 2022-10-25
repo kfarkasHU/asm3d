@@ -1,0 +1,1 @@
+./.tools/BochsPortable/BochsPortable.exe -f ./.tools/BochsPortable/bochsrc.bxrc -q
