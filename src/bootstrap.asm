@@ -2,3 +2,4 @@
 [ORG 0x7C00]
 
 %include "math/_entry.asm"
+%include "bios/_entry.asm"
