@@ -3,8 +3,8 @@
 # General
 readonly FILENAME=asm3d
 
-readonly NASM_PATH=.tools/nasm-2.14/nasm.exe
-readonly NASM_OUT_MODE=win32
+readonly NASM_PATH=.tools/nasm-2.15.05/nasm.exe
+readonly NASM_OUT_MODE=obj
 
 readonly GOLINK_PATH=.tools/GoLink/GoLink.exe
 readonly GOLINK_TYPE=-console

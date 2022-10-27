@@ -1,18 +1,20 @@
-global _main
-extern _MessageBoxA@16
-extern _ExitProcess@4
+[BITS 16]
 
-section code use32 class=code
-_main:
-	push	dword 0      ; UINT uType = MB_OK
-	push	dword title  ; LPCSTR lpCaption
-	push	dword banner ; LPCSTR lpText
-	push	dword 0      ; HWND hWnd = NULL
-	call	_MessageBoxA@16
+MOV AL, 30h
+MOV AH, 0Eh
+MOV BH, 00h
+MOV BL, 07h
 
-	push	dword 0      ; UINT uExitCode
-	call	_ExitProcess@4
+INT 10h
 
-section data use32 class=data
-	banner:	db 'Hello, world!', 0
-	title:	db 'Hello', 0
+MOV AX, 13h
+INT 10h
+
+mov ah, 0ch
+mov bh, 0
+mov dx, 5
+mov cx, 5
+mov al, 0100b
+int 10h
+
+JMP $
