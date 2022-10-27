@@ -12,7 +12,6 @@
 ;  CALL draw_2d__pixel
 ;  ; there is a pixel at (ah; al) location
 ;
-;
 draw_2d__pixel:
 	PUSH	CX
 	PUSH	DX
@@ -23,7 +22,7 @@ draw_2d__pixel:
 	MOV		DL,		AL
 	MOV		AH,		0Ch
 	MOV		BH,		00h
-	MOV		AL,		4		; white color
+	MOV		AL,		4
 	INT		10h
 
 	POP		BX
