@@ -14,18 +14,23 @@
 ;
 ;
 draw_2d__pixel:
+	PUSH	CX
+	PUSH	DX
+	PUSH	AH
+	PUSH	AL
+	PUSH	BH
+
+	MOV		CX,		AH
+	MOV		DX,		AL
 	MOV		AH,		0Ch
 	MOV		BH,		00h
-	MOV		CX,		02h		; x coord
-	MOV		DX,		04h		; y coord
 	MOV		AL,		4		; white color
 	INT		10h
+
+	POP		BH
+	POP		AL
+	POP		AH
+	POP		DX
+	POP		CX
+
 	RET
-
-
-; mov ah, 0ch
-; mov bh, 0
-; mov dx, 5
-; mov cx, 5
-; mov al, 0100b
-; int 10h
