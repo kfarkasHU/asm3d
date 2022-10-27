@@ -2,15 +2,6 @@
 
 init:
 	CALL bios__set_video_mode
-	MOV		AX, 50
-	MOV		BX, 115
-	SUB		AX, BX
-	CALL	math__abs
-	CALL	text__print_char
-
-	; MOV		AH,		150
-	; MOV		AL,		60
-	; CALL draw_2d__pixel
 
 mainloop:
 	MOV		AH,		01h
