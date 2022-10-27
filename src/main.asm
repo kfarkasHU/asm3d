@@ -14,4 +14,5 @@ mainloop:
 %include "bios/mode.asm"			; Set video mode
 %include "math/abs.asm";			; Math absolute
 %include "draw/2d/pixel.asm"		; Draw pixel
+%include "draw/2d/pine.asm"			; Draw line
 %include "text/print.asm"			; Print character

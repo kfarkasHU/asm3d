@@ -1,21 +1,21 @@
 ;
 ; Converts a value to its positive equivalent.
 ; Input
-;  ax
+;  al
 ; Output
-;  ax as |ax|
+;  al as |al|
 ; Usage
-;  MOV ax, 5
-;  MOV bx, 8
-;  SUB ah, al
+;  MOV al, 5
+;  MOV bl, 8
+;  SUB al, bl
 ;  CALL math__abs
-;  ; ax = 3
+;  ; al = 3
 ;
 math__abs:
-	CMP		AX,		00h
+	CMP		AL,		00h
 	JL		math__abs_g
 	RET
 
 math__abs_g:
-	NEG		AX
+	NEG		AL
 	RET
