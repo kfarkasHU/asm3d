@@ -11,6 +11,7 @@ mainloop:
 	INT		21h
 	CMP		AL,		1Bh ; Escape
 	JNZ		mainloop
+	CALL	bios__set_text_mode
 	RET
 
 %include "bios/mode.asm"			; Set video mode

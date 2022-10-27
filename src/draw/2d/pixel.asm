@@ -16,20 +16,18 @@
 draw_2d__pixel:
 	PUSH	CX
 	PUSH	DX
-	PUSH	AH
-	PUSH	AL
-	PUSH	BH
+	PUSH	AX
+	PUSH	BX
 
-	MOV		CX,		AH
-	MOV		DX,		AL
+	MOV		CH,		AH
+	MOV		DL,		AL
 	MOV		AH,		0Ch
 	MOV		BH,		00h
 	MOV		AL,		4		; white color
 	INT		10h
 
-	POP		BH
-	POP		AL
-	POP		AH
+	POP		BX
+	POP		AX
 	POP		DX
 	POP		CX
 
