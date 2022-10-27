@@ -82,4 +82,3 @@ draw_2d__line__start_bigger:
 	MOV		BL,		2
 	SUB		AL,		BL
 	RET
-
