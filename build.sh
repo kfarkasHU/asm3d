@@ -1,11 +1,14 @@
-readonly SRC_FOLDER=./src
-readonly NASM_PATH=./.tools/nasm-2.14/nasm.exe
-readonly BOOTSTRAP_PATH=bootstrap.asm
-readonly DIST_FOLDER=./dist
-readonly OUTPUT_FILE=asm3d.img
+#!/bin/sh
 
-if [ ! -d $DIST_FOLDER ]; then
-  mkdir $DIST_FOLDER
-fi
+set -e
 
-$NASM_PATH -i $SRC_FOLDER -f bin $SRC_FOLDER/$BOOTSTRAP_PATH -o $DIST_FOLDER/$OUTPUT_FILE
+source ./.build/_constants.sh
+
+source ./.build/_prebuild.sh
+echo "[INF] ======"
+source ./.build/compile.sh
+echo "[INF] ======"
+source ./.build/link.sh
+echo "[INF] ======"
+source ./.build/build.sh
+source ./.build/_postbuild.sh
