@@ -21,14 +21,14 @@ draw_2d__line:
 	PUSH	AX
 
 	; TODO: Since this is nearly the same for both cases, it could be moved under a dedicated label
-	CMP		AL,		BL
-	JL		draw_2d__line__start_smaller
-	JNL		draw_2d__line__start_bigger
-	; Now we have 1 or -1 in AL
 	CMP		AH,		BH
 	JL		draw_2d__line__start_smaller
 	JNL		draw_2d__line__start_bigger
-	; Now we have 1 or -1 in AL
+	MOV		AH,		AL
+	CMP		AL,		BL
+	JL		draw_2d__line__start_smaller
+	JNL		draw_2d__line__start_bigger
+	PUSH	AX				; Store ax and ay in the stack
 
 	SUB		AL,		BL
 	MOV		CL,		AL		; deltaX
@@ -36,18 +36,39 @@ draw_2d__line:
 	MOV		CH,		AH		; deltaY
 	PUSH	CX				; Store delta values in the stack
 
-	POP		CX				; Do not forget this lol!
+	SUB		CL,		CH
+	MOV		AH,		00h
+	PUSH	AX				; delta diff
+
+	POP		AX				; delta diff	- Do not forget this lol!
+	POP		CX				; deltas		- Do not forget this lol!
+	POP		AX				; ax and ay		- Do not forget this lol!
+
+	;+ const ax = sx < ex ? 1 : -1;
+    ;+ const ay = sy < ey ? 1 : -1;
     ;+ const dx = Math.abs(ex - sx);
     ;+ const dy = Math.abs(ey - sy);
-    ;+ const ax = sx < ex ? 1 : -1;
-    ;+ const ay = sy < ey ? 1 : -1;
-    ; let deltaDiff = dx - dy;
+    ;+ let deltaDiff = dx - dy;
 
-    ; while (true) {
-    ;   this.drawPixelInternal(sx, sy, depth, red, green, blue);
-    ;   if (sx == ex && sy == ey) {
-    ;     break;
-    ;   }
+	POP		AX
+	POP		BX
+	PUSH	BX
+	PUSH	AX
+	bresenham:
+		CALL	draw_2d__line
+		JMP		draw_2d__line__check_x_match
+
+		bresenham_continue:
+
+			JMP		bresenham
+
+	return:
+		RET
+    ;+ while (true) {
+    ;+   this.drawPixelInternal(sx, sy, depth, red, green, blue);
+    ;+   if (sx == ex && sy == ey) {
+    ;+     break;
+    ;+   }
 
     ;   const amplifiedDeltaDiff = deltaDiff * 2;
     ;   if (amplifiedDeltaDiff > -dy) {
@@ -60,7 +81,7 @@ draw_2d__line:
     ;     fillLines[sy].push(sx);
     ;     sy += ay;
     ;   }
-    ; }
+    ;+ }
 
 
 
@@ -82,3 +103,13 @@ draw_2d__line__start_bigger:
 	MOV		BL,		2
 	SUB		AL,		BL
 	RET
+
+draw_2d__line__check_x_match:
+	CMP		AL,		BL
+	JZ		draw_2d__line__check_y_match
+	JMP		bresenham_continue
+
+draw_2d__line__check_y_match:
+	CMP		AH,		BH
+	JZ		return
+	JMP		bresenham_continue
