@@ -2,15 +2,15 @@
 ; Draw a pixel to the screen.
 ; Required video mode.
 ; Inputs
-;  ah - coord x
-;  al - coord y
+;  al - coord x
+;  ah - coord y
 ; Returns
 ;  none
 ; Usage
 ;  MOV ah, 10
 ;  MOV al, 15
 ;  CALL draw_2d__pixel
-;  ; there is a pixel at (ah; al) location
+;  ; there is a pixel at (al; ah) location
 ;
 draw_2d__pixel:
 	PUSH	CX
@@ -18,8 +18,8 @@ draw_2d__pixel:
 	PUSH	AX
 	PUSH	BX
 
-	MOV		CH,		AH
-	MOV		DL,		AL
+	MOV		CH,		AL
+	MOV		DL,		AH
 	MOV		AH,		0Ch
 	MOV		BH,		00h
 	MOV		AL,		4
