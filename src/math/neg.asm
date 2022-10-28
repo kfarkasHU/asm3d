@@ -11,11 +11,11 @@
 ;  CALL math__abs
 ;  ; al = -3
 ;
-math__abs:
+math__neg:
 	CMP		AL,		00h
 	JNL		math__abs_g
 	RET
 
-math__abs_g:
+math__neg_l:
 	NEG		AL
 	RET
