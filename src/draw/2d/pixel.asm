@@ -4,6 +4,7 @@
 ; Inputs
 ;  al - coord x
 ;  ah - coord y
+;  bl - color
 ; Returns
 ;  none
 ; Usage
@@ -18,11 +19,17 @@ draw_2d__pixel:
 	PUSH	AX
 	PUSH	BX
 
-	MOV		CH,		AL
+	; x coord (col)
+	MOV		CX,		0
+	MOV		CL,		AL
+
+	; y coord (row)
+	MOV		DX,		0
 	MOV		DL,		AH
+
 	MOV		AH,		0Ch
 	MOV		BH,		00h
-	MOV		AL,		4
+	MOV		AL,		BL
 	INT		10h
 
 	POP		BX

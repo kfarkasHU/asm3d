@@ -15,76 +15,38 @@
 ;  CALL draw_2d__line
 ;
 draw_2d__line:
-	PUSH	DX
+	PUSH	AX
+	PUSH	BX
 	PUSH	CX
-	PUSH	BX
-	PUSH	AX
+	PUSH	DX
 
-	; TODO: Since this is nearly the same for both cases, it could be moved under a dedicated label
-	CMP		AH,		BH
-	JL		draw_2d__line__start_smaller
-	JNL		draw_2d__line__start_bigger
-	MOV		AH,		AL
+	; Order by X
 	CMP		AL,		BL
-	JL		draw_2d__line__start_smaller
-	JNL		draw_2d__line__start_bigger
-	PUSH	AX				; Store ax and ay in the stack
+	JNL		draw_no_swap_x
+	XCHG	AX,		BX
+	draw_no_swap_x:
+		MOV		DX,		AX
+		CALL	draw_2d__line_calc_dx
+		CALL	draw_2d__line_calc_dy
+		
+		; cl dx
+		; ch dy
 
-	SUB		AL,		BL
-	MOV		CL,		AL		; deltaX
-	SUB		AH,		BH
-	MOV		CH,		AH		; deltaY
-	PUSH	CX				; Store delta values in the stack
+		; Move startX to AL
+		MOV		AL,		DL
+		loop_over_x:
+			CALL	draw_2d__line_calc_y
+			MOV		AH,		DL
+			XCHG	AL,		AH
+			PUSH	BX
+			MOV 	BL, 48
+			CALL	draw_2d__pixel
+			POP		BX
 
-	SUB		CL,		CH
-	MOV		AH,		00h
-	PUSH	AX				; delta diff
-
-	POP		AX				; delta diff	- Do not forget this lol!
-	POP		CX				; deltas		- Do not forget this lol!
-	POP		AX				; ax and ay		- Do not forget this lol!
-
-	;+ const ax = sx < ex ? 1 : -1;
-    ;+ const ay = sy < ey ? 1 : -1;
-    ;+ const dx = Math.abs(ex - sx);
-    ;+ const dy = Math.abs(ey - sy);
-    ;+ let deltaDiff = dx - dy;
-
-	POP		AX
-	POP		BX
-	PUSH	BX
-	PUSH	AX
-	bresenham:
-		CALL	draw_2d__line
-		JMP		draw_2d__line__check_x_match
-
-		bresenham_continue:
-
-			JMP		bresenham
-
-	return:
-		RET
-    ;+ while (true) {
-    ;+   this.drawPixelInternal(sx, sy, depth, red, green, blue);
-    ;+   if (sx == ex && sy == ey) {
-    ;+     break;
-    ;+   }
-
-    ;   const amplifiedDeltaDiff = deltaDiff * 2;
-    ;   if (amplifiedDeltaDiff > -dy) {
-    ;     deltaDiff -= dy;
-    ;     sx += ax;
-    ;   }
-    ;   if (amplifiedDeltaDiff < dx) {
-    ;     deltaDiff += dx;
-    ;     fillLines[sy] = fillLines[sy] || [];
-    ;     fillLines[sy].push(sx);
-    ;     sy += ay;
-    ;   }
-    ;+ }
-
-
-
+			INC		AL
+			XCHG	AL,		DL
+			CMP		DL,		BL			; break if al === bl (x === x2)
+			JNE		loop_over_x
 
 	POP		DX
 	POP		CX
@@ -93,23 +55,78 @@ draw_2d__line:
 
 	RET
 
-draw_2d__line__start_smaller:
-	MOV		AL,		1
+
+;
+; Calculates `y` value with the following formula
+;	y = y1 + dy(x - x1)/dx
+; Inputs
+;  al - x1
+;  ah - y1
+;  dl - x
+;  cl - dx
+;  ch - dy
+; Outputs
+;  al - y
+;
+draw_2d__line_calc_y:
+	PUSH	AX
+	PUSH	BX
+	PUSH	CX
+	PUSH	DX
+
+	XCHG	AL,		DL
+	SUB		AL,		DL ; x - x1
+
+	XCHG	AX,		CX
+	XCHG	AL,		AH
+	DIV		AH
+
+	MUL		CL
+
+	ADD		CL,		CH
+
+	POP		AX
+
+	MOV		AL,		CL
+	
+	POP		BX
+	POP		CX
+	POP		DX
+
 	RET
 
-draw_2d__line__start_bigger:
-	; TODO: Load -1 immediately
-	MOV		AL,		1
-	MOV		BL,		2
+;
+; Calculates `dx`
+; Inputs
+;  al - Ax
+;  bl - Bx
+; Outputs
+;  cl - dx
+;
+draw_2d__line_calc_dx:
 	SUB		AL,		BL
+	MOV		CL,		AL	;dx
 	RET
 
-draw_2d__line__check_x_match:
-	CMP		AL,		BL
-	JZ		draw_2d__line__check_y_match
-	JMP		bresenham_continue
+;
+; Calculates `dy`
+; Inputs
+;  ah - Ay
+;  bh - By
+; Outputs
+;  ch - dy
+;
+draw_2d__line_calc_dy:
+	SUB		AH,		BH
+	MOV		CH,		AH	;dy
+	RET
 
-draw_2d__line__check_y_match:
-	CMP		AH,		BH
-	JZ		return
-	JMP		bresenham_continue
+	; order by x
+	; calc dx, dy
+	; while x = x1; x < x2
+	; 	y = y1 + dy * (x - x1) / dx;
+	;	draw
+	; if dx = 0
+	; 	order by y
+	; 	while y = y1; y1 < y2 + 1
+	;		draw

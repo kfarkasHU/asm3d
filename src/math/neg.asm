@@ -13,7 +13,7 @@
 ;
 math__neg:
 	CMP		AL,		00h
-	JNL		math__abs_g
+	JNL		math__neg_l
 	RET
 
 math__neg_l:
