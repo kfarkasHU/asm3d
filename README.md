@@ -3,10 +3,20 @@ A fully working 3D rendering engine written in plain x86 Assembly.
 
 ## Geting started
 ```bash
+
 git clone https://github.com/kfarkasHU/asm3d.git
 cd asm3d
 ./run.sh
+
 ```
+
+**on mac**
+```sh
+
+brew install dosbox-x
+
+```
+
 
 The repository contains all the required tools to compile and run the source code.
 Used 3rd party tools:
