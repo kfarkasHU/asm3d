@@ -39,4 +39,5 @@ draw_line_test:
 %include "math/neg.asm";			; Math negate
 %include "draw/2d/pixel.asm"		; Draw pixel
 %include "draw/2d/line.asm"			; Draw line
+%include "draw/2d/triangle.asm"		; Draw triangle
 %include "text/print.asm"			; Print character
