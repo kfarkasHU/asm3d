@@ -14,27 +14,27 @@
 ;  ; there is a pixel at (al; ah) location
 ;
 draw_2d__pixel:
-	PUSH	CX
-	PUSH	DX
-	PUSH	AX
-	PUSH	BX
+  PUSH  CX
+  PUSH  DX
+  PUSH  AX
+  PUSH  BX
 
-	; x coord (col)
-	MOV		CX,		0
-	MOV		CL,		AL
+  ; x coord (col)
+  MOV   CX, 0
+  MOV   CL, AL
 
-	; y coord (row)
-	MOV		DX,		0
-	MOV		DL,		AH
+  ; y coord (row)
+  MOV   DX, 0
+  MOV   DL, AH
 
-	MOV		AH,		0Ch
-	MOV		BH,		00h
-	MOV		AL,		BL
-	INT		10h
+  MOV   AH, 0Ch
+  MOV   BH, 00h
+  MOV   AL, BL
+  INT   10h
 
-	POP		BX
-	POP		AX
-	POP		DX
-	POP		CX
+  POP   BX
+  POP   AX
+  POP   DX
+  POP   CX
 
-	RET
+  RET

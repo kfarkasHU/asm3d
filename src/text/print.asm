@@ -10,15 +10,15 @@
 ;  ; 'A' in the console
 ;
 text__print_char:
-	PUSH	AX
-	POP		DX
+  PUSH  AX
+  POP   DX
 
-	MOV		AL,		DL
-	MOV		AH,		0x0E
-	MOV		BH,		0x00
-	MOV		BL,		0x07
+  MOV   AL, DL
+  MOV   AH, 0x0E
+  MOV   BH, 0x00
+  MOV   BL, 0x07
 
-	INT		0x10
-	MOV		AX,		DX
+  INT   0x10
+  MOV   AX, DX
 
-	RET
+  RET

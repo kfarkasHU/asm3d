@@ -12,10 +12,10 @@
 ;  ; al = -3
 ;
 math__neg:
-	CMP		AL,		00h
-	JNL		math__neg_l
-	RET
+  CMP AL, 00h
+  JNL math__neg_l
+  RET
 
 math__neg_l:
-	NEG		AL
-	RET
+  NEG AL
+  RET

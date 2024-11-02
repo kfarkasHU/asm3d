@@ -12,10 +12,10 @@
 ;  ; al = 3
 ;
 math__abs:
-	CMP		AL,		00h
-	JL		math__abs_g
-	RET
+  CMP AL, 00h
+  JL  math__abs_g
+  RET
 
 math__abs_g:
-	NEG		AL
-	RET
+  NEG AL
+  RET

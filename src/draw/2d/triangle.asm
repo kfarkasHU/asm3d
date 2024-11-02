@@ -19,7 +19,4 @@
 ;  CALL draw_2d__triangle
 ;
 draw_2d__triangle:
-    ; Ax, Ay - Bx, By
-    ; Bx, By - Cx, Cy
-    ; Cx, Cy - Ax, Ay
-	RET
+  RET
